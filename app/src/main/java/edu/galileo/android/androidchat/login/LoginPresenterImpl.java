@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.login;
 
+import android.util.Log;
+
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 import edu.galileo.android.androidchat.login.events.LoginEvent;
@@ -62,6 +64,9 @@ public class LoginPresenterImpl implements LoginPresenter {
             case LoginEvent.onSignInSuccess:
                 onSignInSuccess();
                 break;
+            case LoginEvent.onSignInError:
+                onSignInError(event.getErrorMessage());
+                break;
             case LoginEvent.onSignUpError:
                 onSignUpError(event.getErrorMessage());
                 break;
@@ -75,7 +80,11 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     private void onFailedToRecoverSession() {
-
+        if (loginView != null){
+            loginView.hideProgress();
+            loginView.enableInputs();
+        }
+        Log.e("LoginPresenterImpl", "onFailedToRecoverSession");
     }
 
     private void onSignInSuccess(){
