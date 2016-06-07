@@ -6,6 +6,11 @@ package edu.galileo.android.androidchat.login;
 public class LoginInteractorImpl implements LoginInteractor {
     private LoginRepository loginRepository;
 
+    public LoginInteractorImpl() {
+        //esto complica el testing. luego hay que inyectar dependencias
+        loginRepository = new LoginRepositoryImpl();
+    }
+
     @Override
     public void checkSession() {
         loginRepository.checkSession();

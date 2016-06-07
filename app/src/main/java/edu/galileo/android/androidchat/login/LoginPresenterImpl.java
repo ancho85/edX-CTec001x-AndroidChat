@@ -4,11 +4,12 @@ package edu.galileo.android.androidchat.login;
  * Created by carlos.gomez on 07/06/2016.
  */
 public class LoginPresenterImpl implements LoginPresenter {
-    LoginView loginView;
-    LoginInteractor loginInteractor;
+    private LoginView loginView;
+    private LoginInteractor loginInteractor;
 
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
+        this.loginInteractor = new LoginInteractorImpl();
     }
 
     @Override
