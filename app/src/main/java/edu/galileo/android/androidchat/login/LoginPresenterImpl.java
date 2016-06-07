@@ -1,5 +1,7 @@
 package edu.galileo.android.androidchat.login;
 
+import edu.galileo.android.androidchat.login.events.LoginEvent;
+
 /**
  * Created by carlos.gomez on 07/06/2016.
  */
@@ -42,6 +44,28 @@ public class LoginPresenterImpl implements LoginPresenter {
             loginView.showProgress();
         }
         loginInteractor.doSignUp(email, password);
+    }
+
+    @Override
+    public void onEventMainThread(LoginEvent event) {
+        switch (event.getEventType()){
+            case LoginEvent.onSignInSuccess:
+                onSignInSuccess();
+                break;
+            case LoginEvent.onSignUpError:
+                onSignUpError(event.getErrorMessage());
+                break;
+            case LoginEvent.onSignUpSuccess:
+                onSignUpSuccess();
+                break;
+            case LoginEvent.onFailedToRecoverSession:
+                onFailedToRecoverSession();
+                break;
+        }
+    }
+
+    private void onFailedToRecoverSession() {
+        
     }
 
     private void onSignInSuccess(){
