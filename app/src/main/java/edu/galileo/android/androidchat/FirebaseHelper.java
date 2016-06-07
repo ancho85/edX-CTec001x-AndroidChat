@@ -1,8 +1,12 @@
 package edu.galileo.android.androidchat;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,5 +72,54 @@ public class FirebaseHelper {
     public Firebase getOneContactReference(String mainEmail, String childEmail){
         String childKey = childEmail.replace(".","_");
         return getUserReference(mainEmail).child(CONTACTS_PATH).child(childKey);
+    }
+
+    public Firebase getChatsReference(String receiver){
+        String keySender = getAuthUserEmail().replace(".","_");
+        String keyReceiver = receiver.replace(".","_");
+
+        String keyChat = keySender + SEPARATOR + keyReceiver;
+        if (keySender.compareTo(keyReceiver) > 0){ // para tener la clave siempre en orden alfabético
+            keyChat = keyReceiver + SEPARATOR + keySender;
+        }
+        return dataReference.getRoot().child(CHATS_PATH).child(keyChat);
+    }
+
+    public void changeUserConnectionStatus(boolean online) {
+        if (getMyUserReference() != null){
+            Map<String, Object> updates = new HashMap<String, Object>();
+            updates.put("online", online); //a la clave se le asigna el boolean recibido
+            getMyUserReference().updateChildren(updates);
+            notifyContactsOfConnectionChange(online);
+        }
+    }
+
+    public void notifyContactsOfConnectionChange(boolean online) {
+        notifyContactsOfConnectionChange(online, false);
+    }
+
+    public void signOff(){
+        notifyContactsOfConnectionChange(false, true);
+    }
+
+    private void notifyContactsOfConnectionChange(final boolean online, final boolean signoff) {
+        final String myEmail = getAuthUserEmail();
+        getMyContactsReference().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot child: dataSnapshot.getChildren()){
+                    String email = child.getKey();
+                    Firebase reference = getOneContactReference(email, myEmail);
+                    reference.setValue(online);
+                }
+                if (signoff){
+                    dataReference.unauth();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {}
+        });
+
     }
 }
