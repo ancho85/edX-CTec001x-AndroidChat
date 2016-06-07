@@ -1,6 +1,8 @@
 package edu.galileo.android.androidchat.login;
 
-import android.util.Log;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
 import edu.galileo.android.androidchat.lib.EventBus;
@@ -12,9 +14,13 @@ import edu.galileo.android.androidchat.login.events.LoginEvent;
  */
 public class LoginRepositoryImpl implements LoginRepository {
     private FirebaseHelper helper;
+    private Firebase dataReference;
+    private Firebase myUserReference;
 
     public LoginRepositoryImpl() {
         this.helper = FirebaseHelper.getInstance();
+        this.dataReference = helper.getDataReference();
+        this.myUserReference = helper.getMyUserReference();
     }
 
     @Override
@@ -24,7 +30,18 @@ public class LoginRepositoryImpl implements LoginRepository {
 
     @Override
     public void signIn(String email, String password) {
-        postEvent(LoginEvent.onSignInSuccess);
+        dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                postEvent(LoginEvent.onSignInSuccess);
+            }
+
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+                postEvent(LoginEvent.onSignInError, firebaseError.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -32,17 +49,17 @@ public class LoginRepositoryImpl implements LoginRepository {
         postEvent(LoginEvent.onFailedToRecoverSession);
     }
 
-    private void postEvent(int type, String errorMessage){
+    private void postEvent(int type, String errorMessage) {
         LoginEvent loginEvent = new LoginEvent();
         loginEvent.setEventType(type);
-        if (errorMessage != null){
+        if (errorMessage != null) {
             loginEvent.setErrorMessage(errorMessage);
         }
         EventBus eventBus = GreenRobotEventBus.getInstance();
         eventBus.post(loginEvent);
     }
 
-    private void postEvent(int type){
+    private void postEvent(int type) {
         postEvent(type, null);
     }
 }
