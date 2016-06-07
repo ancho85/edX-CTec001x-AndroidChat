@@ -1,22 +1,32 @@
 package edu.galileo.android.androidchat.login;
 
+import edu.galileo.android.androidchat.lib.EventBus;
+import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 import edu.galileo.android.androidchat.login.events.LoginEvent;
 
 /**
  * Created by carlos.gomez on 07/06/2016.
  */
 public class LoginPresenterImpl implements LoginPresenter {
+    private EventBus eventBus;
     private LoginView loginView;
     private LoginInteractor loginInteractor;
 
     public LoginPresenterImpl(LoginView loginView) {
         this.loginView = loginView;
         this.loginInteractor = new LoginInteractorImpl();
+        this.eventBus = GreenRobotEventBus.getInstance();
+    }
+
+    @Override
+    public void onCreate() {
+        eventBus.register(this); //registra al presentador para escuchar
     }
 
     @Override
     public void onDestroy() {
         loginView = null; //para evitar el memory leak
+        eventBus.unregister(this); //proceso inverso para deregistrar
     }
 
     @Override
@@ -65,7 +75,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     private void onFailedToRecoverSession() {
-        
+
     }
 
     private void onSignInSuccess(){
