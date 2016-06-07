@@ -77,11 +77,7 @@ public class LoginRepositoryImpl implements LoginRepository {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User currentUser = dataSnapshot.getValue(User.class); //POJO User
                 if (currentUser == null){
-                    String email = helper.getAuthUserEmail();
-                    if (email != null){
-                        currentUser = new User();
-                        myUserReference.setValue(currentUser);
-                    }
+                    registerNewUser();
                 }
                 helper.changeUserConnectionStatus(User.ONLINE);
                 postEvent(LoginEvent.onSignInSuccess);
@@ -90,6 +86,14 @@ public class LoginRepositoryImpl implements LoginRepository {
             @Override
             public void onCancelled(FirebaseError firebaseError) {}
         });
+    }
+
+    private void registerNewUser(){
+        String email = helper.getAuthUserEmail();
+        if (email != null){
+            User currentUser = new User();
+            myUserReference.setValue(currentUser);
+        }
     }
 
     private void postEvent(int type, String errorMessage) {
