@@ -1,6 +1,8 @@
 package edu.galileo.android.androidchat.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.contactlist.ContactListActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
@@ -73,22 +76,26 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void navigateToMainScreen() {
-
+        startActivity(new Intent(this, ContactListActivity.class));
     }
 
     @Override
     public void loginError(String error) {
-
+        editTxtPassword.setText("");
+        String msgError = String.format(getString(R.string.login_error_message_signin), error);
+        editTxtPassword.setError(msgError);
     }
 
     @Override
     public void newUserSuccess() {
-
+        Snackbar.make(container, R.string.login_notice_message_signup, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void newUserError(String error) {
-
+        editTxtPassword.setText("");
+        String msgError = String.format(getString(R.string.login_error_message_signup), error);
+        editTxtPassword.setError(msgError);
     }
 
     private void setInputs(boolean enabled) {
