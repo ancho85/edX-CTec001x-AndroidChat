@@ -1,10 +1,13 @@
 package edu.galileo.android.androidchat.login;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import edu.galileo.android.androidchat.domain.FirebaseHelper;
+import edu.galileo.android.androidchat.entities.User;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 import edu.galileo.android.androidchat.login.events.LoginEvent;
@@ -33,7 +36,25 @@ public class LoginRepositoryImpl implements LoginRepository {
         dataReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                postEvent(LoginEvent.onSignInSuccess);
+                myUserReference = helper.getMyUserReference();
+                myUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User currentUser = dataSnapshot.getValue(User.class); //POJO User
+                        if (currentUser == null){
+                            String email = helper.getAuthUserEmail();
+                            if (email != null){
+                                currentUser = new User();
+                                myUserReference.setValue(currentUser);
+                            }
+                        }
+                        helper.changeUserConnectionStatus(User.ONLINE);
+                        postEvent(LoginEvent.onSignInSuccess);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {}
+                });
             }
 
             @Override
