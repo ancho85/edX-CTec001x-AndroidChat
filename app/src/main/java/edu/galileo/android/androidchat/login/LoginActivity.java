@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Bind(R.id.editTxtEmail)
     EditText editTxtEmail;
@@ -26,7 +26,9 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
     @Bind(R.id.layoutMainContainer)
-    RelativeLayout layoutMainContainer;
+    RelativeLayout container;
+
+    private LoginPresenter loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,64 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick(R.id.btnSignin)
-    public void handleSignIn() {
+    @Override
+    public void enableInputs() {
+        setInputs(true);
+    }
 
+    @Override
+    public void disableInputs() {
+        setInputs(false);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btnSignup)
+    @Override
     public void handleSignUp() {
+        loginPresenter.registerNewUser(editTxtEmail.getText().toString(),
+                                        editTxtPassword.getText().toString());
+    }
 
+    @OnClick(R.id.btnSignin)
+    @Override
+    public void handleSingIn() {
+        loginPresenter.validateLogin(editTxtEmail.getText().toString(),
+                                        editTxtPassword.getText().toString());
+    }
+
+    @Override
+    public void navigateToMainScreen() {
+
+    }
+
+    @Override
+    public void loginError(String error) {
+
+    }
+
+    @Override
+    public void newUserSuccess() {
+
+    }
+
+    @Override
+    public void newUserError(String error) {
+
+    }
+
+    private void setInputs(boolean enabled) {
+        editTxtEmail.setEnabled(enabled);
+        editTxtPassword.setEnabled(enabled);
+        btnSignin.setEnabled(enabled);
+        btnSignup.setEnabled(enabled);
     }
 }
