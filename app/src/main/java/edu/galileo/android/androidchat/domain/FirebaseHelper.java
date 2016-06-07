@@ -1,10 +1,10 @@
 package edu.galileo.android.androidchat.domain;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import edu.galileo.android.androidchat.entities.User;
  * project is edx-ctec001x-androidchat
  */
 public class FirebaseHelper {
-    private Firebase dataReference;
+    private DatabaseReference dataReference;
     private final static String SEPARATOR = "___";
     private final static String CHATS_PATH = "chats";
     private final static String USERS_PATH = "users";
@@ -33,10 +33,10 @@ public class FirebaseHelper {
     }
 
     public FirebaseHelper() {
-        this.dataReference = new Firebase(FIREBASE_URL);
+        this.dataReference = FirebaseDatabase.getInstance().getReferenceFromUrl(FIREBASE_URL);
     }
 
-    public Firebase getDataReference() {
+    public DatabaseReference getDataReference() {
         return dataReference;
     }
 
@@ -50,33 +50,33 @@ public class FirebaseHelper {
         return email;
     }
 
-    public Firebase getUserReference(String email){
-        Firebase userReference = null;
+    public FirebaseDatabase getUserReference(String email){
+        FirebaseDatabase userReference = null;
         if (email != null){
-            String emailKey = email.replace(".", "_"); //firebase no permite varios caracteres en la ruta, el punto por ej.
+            String emailKey = email.replace(".", "_"); //FirebaseDatabase no permite varios caracteres en la ruta, el punto por ej.
             userReference = dataReference.getRoot().child(USERS_PATH).child(emailKey);
         }
         return userReference;
     }
 
-    public Firebase getMyUserReference(){ //obtener referencia a MI usuario
+    public FirebaseDatabase getMyUserReference(){ //obtener referencia a MI usuario
         return getUserReference(getAuthUserEmail());
     }
 
-    public Firebase getContactsReference(String email){
+    public FirebaseDatabase getContactsReference(String email){
         return getUserReference(email).child(CONTACTS_PATH);
     }
 
-    public Firebase getMyContactsReference(){
+    public FirebaseDatabase getMyContactsReference(){
         return getContactsReference(getAuthUserEmail());
     }
 
-    public Firebase getOneContactReference(String mainEmail, String childEmail){
+    public FirebaseDatabase getOneContactReference(String mainEmail, String childEmail){
         String childKey = childEmail.replace(".","_");
         return getUserReference(mainEmail).child(CONTACTS_PATH).child(childKey);
     }
 
-    public Firebase getChatsReference(String receiver){
+    public FirebaseDatabase getChatsReference(String receiver){
         String keySender = getAuthUserEmail().replace(".","_");
         String keyReceiver = receiver.replace(".","_");
 
@@ -111,7 +111,7 @@ public class FirebaseHelper {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child: dataSnapshot.getChildren()){
                     String email = child.getKey();
-                    Firebase reference = getOneContactReference(email, myEmail);
+                    FirebaseDatabase reference = getOneContactReference(email, myEmail);
                     reference.setValue(online);
                 }
                 if (signoff){
@@ -120,7 +120,7 @@ public class FirebaseHelper {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {}
+            public void onCancelled(DatabaseError firebaseError) {}
         });
 
     }
