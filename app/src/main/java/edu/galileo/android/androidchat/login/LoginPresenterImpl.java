@@ -3,6 +3,7 @@ package edu.galileo.android.androidchat.login;
 import edu.galileo.android.androidchat.lib.EventBus;
 import edu.galileo.android.androidchat.lib.GreenRobotEventBus;
 import edu.galileo.android.androidchat.login.events.LoginEvent;
+import edu.galileo.android.androidchat.login.ui.LoginView;
 
 /**
  * Created by carlos.gomez on 07/06/2016.

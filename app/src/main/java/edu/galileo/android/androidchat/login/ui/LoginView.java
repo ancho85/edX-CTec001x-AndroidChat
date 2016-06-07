@@ -1,4 +1,4 @@
-package edu.galileo.android.androidchat.login;
+package edu.galileo.android.androidchat.login.ui;
 
 /**
  * Created by carlos.gomez on 07/06/2016.
