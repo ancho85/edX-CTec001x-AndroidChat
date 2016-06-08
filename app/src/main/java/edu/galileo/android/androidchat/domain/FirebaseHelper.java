@@ -13,8 +13,9 @@ import edu.galileo.android.androidchat.entities.User;
 
 /**
  * Created by carlos.gomez on 07/06/2016.
- * login with google account carlos85honig@gmail.com at console.firebase.google.com
- * project is edx-ctec001x-androidchat
+ * login with google account carlos85honig@gmail.com at firebase.com
+ * and then click on "legacy console login" for old version, or firebase.com/login/
+ * project is edx-ctec001x-androidchat-legacyconsole
  */
 public class FirebaseHelper {
     private Firebase dataReference;
@@ -22,7 +23,7 @@ public class FirebaseHelper {
     private final static String CHATS_PATH = "chats";
     private final static String USERS_PATH = "users";
     private final static String CONTACTS_PATH = "contacts";
-    private final static String FIREBASE_URL = "https://edx-ctec001x-androidchat.firebaseio.com/";
+    private final static String FIREBASE_URL = "https://edx-ctec001x-androidchat-legacyconsole.firebaseapp.com";
 
     private static class SingletonHolder{
         private static final FirebaseHelper INSTANCE = new FirebaseHelper();
