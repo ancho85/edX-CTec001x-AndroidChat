@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
 
-public class AddContactFragment extends DialogFragment implements AddContactView {
+public class AddContactFragment extends DialogFragment implements AddContactView, DialogInterface.OnShowListener {
 
 
     @Bind(R.id.editTxtEmail)
@@ -48,9 +48,9 @@ public class AddContactFragment extends DialogFragment implements AddContactView
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_contact, null);
         ButterKnife.bind(this, view);
-
         builder.setView(view);
         AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(this);
         return dialog;
     }
 
@@ -89,5 +89,10 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onShow(DialogInterface dialog) {
+        
     }
 }
