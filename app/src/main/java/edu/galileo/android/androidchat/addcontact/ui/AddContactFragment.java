@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.addcontact.AddContactPresenter;
 
 public class AddContactFragment extends DialogFragment implements AddContactView, DialogInterface.OnShowListener {
 
@@ -23,6 +25,8 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     EditText editTxtEmail;
     @Bind(R.id.progressBar)
     ProgressBar progressBar;
+
+    AddContactPresenter presenter;
 
     public AddContactFragment() {
         // Required empty public constructor
@@ -93,6 +97,25 @@ public class AddContactFragment extends DialogFragment implements AddContactView
 
     @Override
     public void onShow(DialogInterface dialog) {
-        
+        final AlertDialog alertDialog = (AlertDialog) getDialog();
+        if (alertDialog != null) {
+            Button positiveButton = alertDialog.getButton(Dialog.BUTTON_POSITIVE);
+            Button negativeButton = alertDialog.getButton(Dialog.BUTTON_NEGATIVE);
+
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    presenter.addContact(editTxtEmail.getText().toString());
+                }
+            });
+
+            negativeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        }
+        presenter.onShow();
     }
 }
