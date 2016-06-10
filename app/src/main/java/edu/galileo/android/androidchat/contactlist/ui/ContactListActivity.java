@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.contactlist.ContactListPresenter;
+import edu.galileo.android.androidchat.contactlist.ContactListPresenterImpl;
 import edu.galileo.android.androidchat.contactlist.ui.adapters.ContactListAdapter;
 import edu.galileo.android.androidchat.contactlist.ui.adapters.OnItemClickListener;
 import edu.galileo.android.androidchat.entities.User;
@@ -37,6 +38,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
         setUpAdapter();
         setUpRecyclerView();
+        presenter = new ContactListPresenterImpl(this);
         presenter.onCreate();
         setupToolbar();
     }
@@ -81,17 +83,17 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     public void onContactAdded(User user) {
-
+        adapter.add(user);
     }
 
     @Override
     public void onContactChanged(User user) {
-
+        adapter.update(user);
     }
 
     @Override
     public void onContactRemoved(User user) {
-
+        adapter.remove(user);
     }
 
     @Override
