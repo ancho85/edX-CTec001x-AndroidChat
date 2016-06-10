@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.addcontact.AddContactPresenter;
+import edu.galileo.android.androidchat.addcontact.AddContactPresenterImpl;
 
 public class AddContactFragment extends DialogFragment implements AddContactView, DialogInterface.OnShowListener {
 
@@ -29,7 +30,7 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     AddContactPresenter presenter;
 
     public AddContactFragment() {
-        // Required empty public constructor
+        presenter = new AddContactPresenterImpl(this);
     }
 
     @NonNull
@@ -81,6 +82,7 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     @Override
     public void contactAdded() {
         Toast.makeText(getActivity(), R.string.addcontact_message_contactadded, Toast.LENGTH_SHORT).show();
+        dismiss();
     }
 
     @Override
@@ -117,5 +119,11 @@ public class AddContactFragment extends DialogFragment implements AddContactView
             });
         }
         presenter.onShow();
+    }
+
+    @Override
+    public void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 }
