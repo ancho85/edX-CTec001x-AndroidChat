@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,32 +41,33 @@ public class AddContactFragment extends DialogFragment implements AddContactView
 
     @Override
     public void showInput() {
-
+        editTxtEmail.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideInput() {
-
+        editTxtEmail.setVisibility(View.GONE);
     }
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void contactAdded() {
-
+        Toast.makeText(getActivity(), R.string.addcontact_message_contactadded, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void contactNotAdded() {
-
+        editTxtEmail.setText("");
+        editTxtEmail.setError(getString(R.string.addcontact_error_message));
     }
 
     @Override
