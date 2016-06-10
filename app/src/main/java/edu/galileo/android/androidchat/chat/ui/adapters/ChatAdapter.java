@@ -1,10 +1,14 @@
 package edu.galileo.android.androidchat.chat.ui.adapters;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,7 +21,7 @@ import edu.galileo.android.androidchat.entities.ChatMessage;
 /**
  * Created by carlos.gomez on 10/06/2016.
  */
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private Context context;
     private List<ChatMessage> chatMessages;
 
@@ -30,6 +34,21 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ChatMessage chatMessage = chatMessages.get(position);
+
+        String msg = chatMessage.getMsg();
+        holder.txtMessage.setText(msg);
+        int color = fetchColor(R.attr.colorPrimary);
+        int gravity = Gravity.LEFT;
+
+        if (!chatMessage.isSentByMe()) {
+            color = fetchColor(R.attr.colorAccent);
+            gravity = Gravity.RIGHT;
+        }
+
+        holder.txtMessage.setBackgroundColor(color);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) holder.txtMessage.getLayoutParams();
+        params.gravity = gravity;
+        holder.txtMessage.setLayoutParams(params);
     }
 
     @Override
@@ -38,10 +57,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     }
 
     public void add(ChatMessage msg) {
-        if (!chatMessages.contains(msg)){
+        if (!chatMessages.contains(msg)) {
             chatMessages.add(msg);
             notifyDataSetChanged();
         }
+    }
+
+    private int fetchColor(int color) {
+        //obtiene el color a partir del identificador recibido
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = context.obtainStyledAttributes(typedValue.data,
+                new int[]{color});
+        int returnColor = a.getColor(0, 0);
+        a.recycle();
+        return returnColor;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
