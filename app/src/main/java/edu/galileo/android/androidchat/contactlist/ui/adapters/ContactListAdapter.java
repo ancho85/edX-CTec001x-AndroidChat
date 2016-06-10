@@ -14,20 +14,20 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.entities.User;
-import edu.galileo.android.androidchat.lib.ImageLoading;
+import edu.galileo.android.androidchat.lib.ImageLoader;
 
 /**
  * Created by carlos.gomez on 09/06/2016.
  */
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
     private List<User> contactList;
-    private ImageLoading imageLoader;
+    private ImageLoader imageLoader;
     private OnItemClickListener onItemClickListener;
 
     //constructor
-    public ContactListAdapter(List<User> contactList, ImageLoading imageLoading, OnItemClickListener onItemClickListener) {
+    public ContactListAdapter(List<User> contactList, ImageLoader imageLoader, OnItemClickListener onItemClickListener) {
         this.contactList = contactList;
-        this.imageLoader = imageLoading;
+        this.imageLoader = imageLoader;
         this.onItemClickListener = onItemClickListener;
     }
 
