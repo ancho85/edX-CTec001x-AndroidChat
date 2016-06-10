@@ -11,7 +11,8 @@ public class ChatMessage {
     private String sender;
     private boolean sentByMe; //propiedad a ignorar, firebase no va a guardar. Se usa el annotation JsonIgnoreProperties
 
-    public ChatMessage() {} //constructor vacío para que firebase no de un error
+    public ChatMessage() {
+    } //constructor vacío para que firebase no de un error
 
     public String getMsg() {
         return msg;
@@ -35,5 +36,15 @@ public class ChatMessage {
 
     public void setSentByMe(boolean sentByMe) {
         this.sentByMe = sentByMe;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean equal = false;
+        if (obj instanceof ChatMessage) {
+            ChatMessage msg = (ChatMessage) obj;
+            equal = this.sender.equals(msg.getSender()) && this.msg.equals(msg.getMsg()) && this.sentByMe == msg.sentByMe;
+        }
+        return equal;
     }
 }
