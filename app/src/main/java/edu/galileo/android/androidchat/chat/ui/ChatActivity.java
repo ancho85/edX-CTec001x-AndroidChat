@@ -47,6 +47,25 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         ButterKnife.bind(this);
 
         presenter = new ChatPresenterImpl(this);
+        presenter.onCreate();
+    }
+
+    @Override
+    protected void onResume() {
+        presenter.onResume();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
