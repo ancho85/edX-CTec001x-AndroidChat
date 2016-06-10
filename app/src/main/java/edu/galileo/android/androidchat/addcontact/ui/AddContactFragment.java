@@ -2,6 +2,7 @@ package edu.galileo.android.androidchat.addcontact.ui;
 
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -30,10 +31,24 @@ public class AddContactFragment extends DialogFragment implements AddContactView
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.addcontact_message_title)
+                .setPositiveButton(R.string.addcontact_message_add, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton(R.string.addcontact_message_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_contact, null);
         ButterKnife.bind(this, view);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         AlertDialog dialog = builder.create();
         return dialog;
