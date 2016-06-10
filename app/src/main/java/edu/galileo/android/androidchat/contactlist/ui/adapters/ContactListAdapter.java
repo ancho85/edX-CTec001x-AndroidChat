@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.lib.ImageLoading;
 
 /**
  * Created by carlos.gomez on 09/06/2016.
@@ -42,11 +43,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         User user = contactList.get(position);
         holder.setClickListener(user, onItemClickListener);
 
+        String email = user.getEmail();
         boolean online = user.isOnline();
         String status = online ? "online" : "offline";
         int color = online ? Color.GREEN : Color.RED;
 
-        holder.txtUser.setText(user.getEmail());
+        holder.txtUser.setText(email);
         holder.txtStatus.setText(status);
         holder.txtStatus.setTextColor(color);
         imageLoader.load(holder.imgAvatar, "");
