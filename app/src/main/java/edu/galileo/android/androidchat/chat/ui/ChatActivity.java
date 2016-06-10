@@ -12,8 +12,11 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import edu.galileo.android.androidchat.R;
+import edu.galileo.android.androidchat.chat.ChatPresenter;
+import edu.galileo.android.androidchat.chat.ChatPresenterImpl;
+import edu.galileo.android.androidchat.entities.ChatMessage;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements ChatView {
 
     @Bind(R.id.imgAvatar)
     CircleImageView imgAvatar;
@@ -30,6 +33,8 @@ public class ChatActivity extends AppCompatActivity {
     @Bind(R.id.btnSendMessage)
     ImageButton btnSendMessage;
 
+    private ChatPresenter presenter;
+
     public final static String EMAIL_KEY = "email";
     public final static String ONLINE_KEY = "online";
 
@@ -38,5 +43,12 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         ButterKnife.bind(this);
+
+        presenter = new ChatPresenterImpl(this);
+    }
+
+    @Override
+    public void onMessageReceived(ChatMessage msg) {
+
     }
 }
