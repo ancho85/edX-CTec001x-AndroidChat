@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -62,10 +64,12 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
     }
 
     private void setUpAdapter() {
+        adapter = new ChatAdapter(this, new ArrayList<ChatMessage>());
     }
 
     private void setUpRecyclerView() {
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messageRecyclerView.setAdapter(adapter);
     }
 
     private void setUpToolbar(Intent i) {
