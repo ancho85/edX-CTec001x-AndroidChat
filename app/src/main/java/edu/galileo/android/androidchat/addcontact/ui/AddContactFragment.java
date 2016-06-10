@@ -1,11 +1,12 @@
 package edu.galileo.android.androidchat.addcontact.ui;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -25,14 +26,16 @@ public class AddContactFragment extends DialogFragment implements AddContactView
         // Required empty public constructor
     }
 
-
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_contact, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_add_contact, null);
         ButterKnife.bind(this, view);
-        return view;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+        AlertDialog dialog = builder.create();
+        return dialog;
     }
 
     @Override
