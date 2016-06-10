@@ -2,17 +2,14 @@ package edu.galileo.android.androidchat.addcontact.ui;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import edu.galileo.android.androidchat.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AddContactFragment extends Fragment {
+public class AddContactFragment extends DialogFragment implements AddContactView {
 
 
     public AddContactFragment() {
@@ -27,4 +24,33 @@ public class AddContactFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_add_contact, container, false);
     }
 
+    @Override
+    public void showInput() {
+
+    }
+
+    @Override
+    public void hideInput() {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void contactAdded() {
+
+    }
+
+    @Override
+    public void contactNotAdded() {
+
+    }
 }
