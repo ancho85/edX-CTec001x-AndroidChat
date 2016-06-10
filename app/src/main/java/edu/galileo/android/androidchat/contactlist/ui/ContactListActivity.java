@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -98,11 +99,11 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     public void onItemClick(User user) {
-
+        Toast.makeText(this, user.getEmail(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onItemLongClick(User user) {
-
+        presenter.removeContact(user.getEmail());
     }
 }
