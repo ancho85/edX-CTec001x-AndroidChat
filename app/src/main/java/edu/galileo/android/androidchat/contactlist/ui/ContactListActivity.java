@@ -3,21 +3,30 @@ package edu.galileo.android.androidchat.contactlist.ui;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import edu.galileo.android.androidchat.R;
 import edu.galileo.android.androidchat.contactlist.ContactListPresenter;
+import edu.galileo.android.androidchat.contactlist.ui.adapters.ContactListAdapter;
+import edu.galileo.android.androidchat.contactlist.ui.adapters.OnItemClickListener;
 import edu.galileo.android.androidchat.entities.User;
+import edu.galileo.android.androidchat.lib.GlideImageLoader;
+import edu.galileo.android.androidchat.lib.ImageLoader;
 
-public class ContactListActivity extends AppCompatActivity implements ContactListView {
+public class ContactListActivity extends AppCompatActivity implements ContactListView, OnItemClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.recyclerViewContacts)
     RecyclerView recyclerViewContacts;
+
+    private ContactListAdapter adapter;
     private ContactListPresenter presenter;
 
     @Override
@@ -25,7 +34,24 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
         ButterKnife.bind(this);
+
+        setUpAdapter();
+        setUpRecyclerView();
         presenter.onCreate();
+        setupToolbar();
+    }
+
+    private void setUpRecyclerView() {
+        recyclerViewContacts.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewContacts.setAdapter(adapter);
+    }
+
+    private void setUpAdapter() {
+        ImageLoader loader = new GlideImageLoader(this.getApplicationContext());
+        adapter = new ContactListAdapter(new ArrayList<User>(), loader, this);
+    }
+
+    private void setupToolbar() {
         toolbar.setTitle(presenter.getCurrentUserEmail());
         setSupportActionBar(toolbar);
     }
@@ -49,7 +75,7 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
     }
 
     @OnClick(R.id.fab)
-    public void addContact(){
+    public void addContact() {
 
     }
 
@@ -65,6 +91,16 @@ public class ContactListActivity extends AppCompatActivity implements ContactLis
 
     @Override
     public void onContactRemoved(User user) {
+
+    }
+
+    @Override
+    public void onItemClick(User user) {
+
+    }
+
+    @Override
+    public void onItemLongClick(User user) {
 
     }
 }
