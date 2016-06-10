@@ -44,6 +44,15 @@ public class AddContactPresenterImpl implements AddContactPresenter {
     @Override
     @Subscribe
     public void onEventMainThread(AddContactEvent event) {
+        if (view != null) {
+            view.hideProgress();
+            view.showInput();
 
+            if (event.isError()) {
+                view.contactNotAdded();
+            } else {
+                view.contactAdded();
+            }
+        }
     }
 }
