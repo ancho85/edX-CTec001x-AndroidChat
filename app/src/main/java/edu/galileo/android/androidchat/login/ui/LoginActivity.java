@@ -77,9 +77,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void handleSignUp() {
         startActivity(new Intent(this, SignUpActivity.class));
-        /*loginPresenter.registerNewUser(editTxtEmail.getText().toString(),
-                                        editTxtPassword.getText().toString());*/
-
     }
 
     @OnClick(R.id.btnSignin)
@@ -103,14 +100,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void newUserSuccess() {
-        Snackbar.make(container, R.string.login_notice_message_signup, Snackbar.LENGTH_SHORT).show();
+        throw new UnsupportedOperationException("Operation is not valid in LoginActivity");
     }
 
     @Override
     public void newUserError(String error) {
-        editTxtPassword.setText("");
-        String msgError = String.format(getString(R.string.login_error_message_signup), error);
-        editTxtPassword.setError(msgError);
+        throw new UnsupportedOperationException("Operation is not valid in LoginActivity");
     }
 
     private void setInputs(boolean enabled) {
