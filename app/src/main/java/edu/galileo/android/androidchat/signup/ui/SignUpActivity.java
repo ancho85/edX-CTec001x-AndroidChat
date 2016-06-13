@@ -54,6 +54,17 @@ public class SignUpActivity extends AppCompatActivity implements LoginView {
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginPresenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        loginPresenter.onPause();
+        super.onPause();
+    }
 
     @Override
     public void enableInputs() {

@@ -8,7 +8,9 @@ import edu.galileo.android.androidchat.login.events.LoginEvent;
 public interface LoginPresenter {
     //hay que registrar el presentador al bus para escuchar por eventos
     void onCreate();
-
+    //al crear una nueva actividad desde el loginActivity deben realizarse cambios
+    void onPause();
+    void onResume();
     //este presentador estará vinculado a la vista, entonces la vista será una actividad y es posible
     //que tenga un memory leak, entonces al destruir la vista destruyo también la variable del presentador
     void onDestroy();

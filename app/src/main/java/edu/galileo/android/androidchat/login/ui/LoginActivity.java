@@ -2,7 +2,6 @@ package edu.galileo.android.androidchat.login.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -43,8 +42,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         ButterKnife.bind(this);
 
         loginPresenter = new LoginPresenterImpl(this);
-        loginPresenter.onCreate();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loginPresenter.onResume();
         loginPresenter.checkForAuthenticatedUser(); //desde el inicio se verificará el usuario autenticado.
+    }
+
+    @Override
+    protected void onPause() {
+        loginPresenter.onPause();
+        super.onPause();
     }
 
     @Override

@@ -23,13 +23,22 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void onCreate() {
+
+    }
+
+    @Override
+    public void onPause() {
+        eventBus.unregister(this); //proceso inverso para deregistrar
+    }
+
+    @Override
+    public void onResume() {
         eventBus.register(this); //registra al presentador para escuchar
     }
 
     @Override
     public void onDestroy() {
         loginView = null; //para evitar el memory leak
-        eventBus.unregister(this); //proceso inverso para deregistrar
     }
 
     @Override
