@@ -51,16 +51,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnSignin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login.button.signin"/>
-
-        <Button
             android:id="@+id/btnSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login.button.gotosignup"/>
+            android:text="@string/signup.button.signup"/>
     </LinearLayout>
 
     <ProgressBar
