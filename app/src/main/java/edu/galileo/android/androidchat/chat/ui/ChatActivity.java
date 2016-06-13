@@ -60,6 +60,8 @@ public class ChatActivity extends AppCompatActivity implements ChatView {
         presenter = new ChatPresenterImpl(this);
         presenter.onCreate();
         setUpToolbar(getIntent());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //muestra flecha atrás
     }
 
     private void setUpAdapter() {

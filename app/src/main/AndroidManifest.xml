@@ -27,6 +27,10 @@
         <activity
             android:name=".chat.ui.ChatActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".contactlist.ui.ContactListActivity">
+            </meta-data>
         </activity>
         <activity android:name=".signup.ui.SignUpActivity">
             <meta-data
